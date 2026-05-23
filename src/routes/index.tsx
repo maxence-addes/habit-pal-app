@@ -246,45 +246,45 @@ function Index() {
             return (
               <div
                 key={h.id}
-                className="group flex items-center justify-between p-4 bg-white ring-1 ring-black/5 rounded-xl transition-transform hover:-translate-y-px"
+                className="group flex items-center justify-between p-4 bg-card ring-1 ring-border rounded-xl transition-transform hover:-translate-y-px"
               >
                 <div className="flex items-center gap-4 flex-1">
                   <button
                     onClick={() => toggleToday(h.id)}
                     aria-label={done ? "Marquer comme non fait" : "Marquer comme fait"}
-                    className={`size-5 rounded-md flex items-center justify-center transition-colors cursor-pointer ${
+                    className={cn(
+                      "size-5 rounded-md flex items-center justify-center transition-colors cursor-pointer",
                       done
                         ? "bg-brand-primary ring-1 ring-brand-primary"
-                        : "ring-1 ring-neutral-200 hover:ring-brand-primary"
-                    }`}
+                        : "ring-1 ring-border hover:ring-brand-primary"
+                    )}
                   >
                     {done && <div className="size-1.5 bg-white rounded-full" />}
                   </button>
                   <div>
                     <p
-                      className={`text-sm font-medium ${
-                        done ? "text-neutral-400 line-through" : ""
-                      }`}
+                      className={cn("text-sm font-medium", done && "text-muted-foreground line-through")}
                     >
                       {h.name}
                     </p>
-                    <p className={`text-xs ${done ? "text-neutral-300" : "text-neutral-400"}`}>
+                    <p className={cn("text-xs", done ? "text-muted-foreground/50" : "text-muted-foreground")}>
                       {h.detail} · {describeSchedule(h.schedule)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-xs font-medium transition-colors ${
-                      done ? "text-brand-primary" : "text-neutral-400 group-hover:text-brand-primary"
-                    }`}
+                    className={cn(
+                      "text-xs font-medium transition-colors",
+                      done ? "text-brand-primary" : "text-muted-foreground group-hover:text-brand-primary"
+                    )}
                   >
                     {done ? "Fait" : `Série de ${streak} j`}
                   </span>
                   <button
                     onClick={() => removeHabit(h.id)}
                     aria-label="Supprimer l'habitude"
-                    className="text-neutral-300 hover:text-neutral-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="text-muted-foreground/40 hover:text-muted-foreground text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     ×
                   </button>
@@ -294,34 +294,34 @@ function Index() {
           })}
 
           {todaysHabits.length === 0 && (
-            <p className="text-center text-sm text-neutral-400 py-8">
+            <p className="text-center text-sm text-muted-foreground py-8">
               Rien de prévu aujourd'hui. Ajoutez une habitude ou une tâche.
             </p>
           )}
 
           {upcomingHabits.length > 0 && (
             <div className="pt-6">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-2 px-1">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2 px-1">
                 Planifié
               </p>
               <div className="space-y-2">
                 {upcomingHabits.map((h) => (
                   <div
                     key={h.id}
-                    className="group flex items-center justify-between p-3 bg-neutral-100/40 ring-1 ring-black/5 rounded-xl"
+                    className="group flex items-center justify-between p-3 bg-muted/40 ring-1 ring-border rounded-xl"
                   >
                     <div>
-                      <p className="text-sm font-medium text-neutral-600">
+                      <p className="text-sm font-medium text-foreground/60">
                         {h.name}
                       </p>
-                      <p className="text-xs text-neutral-400">
+                      <p className="text-xs text-muted-foreground">
                         {describeSchedule(h.schedule)}
                       </p>
                     </div>
                     <button
                       onClick={() => removeHabit(h.id)}
                       aria-label="Supprimer"
-                      className="text-neutral-300 hover:text-neutral-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="text-muted-foreground/40 hover:text-muted-foreground text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       ×
                     </button>
@@ -335,26 +335,26 @@ function Index() {
             {!adding ? (
               <button
                 onClick={() => setAdding(true)}
-                className="bg-[#1c1c1a] text-neutral-50 text-sm font-medium py-2 px-4 flex items-center gap-2 rounded-lg ring-1 ring-[#1c1c1a] hover:bg-neutral-800 transition-colors cursor-pointer"
+                className="bg-foreground text-background text-sm font-medium py-2 px-4 flex items-center gap-2 rounded-lg ring-1 ring-foreground hover:bg-foreground/80 transition-colors cursor-pointer"
               >
                 <span className="text-lg leading-none">+</span>
                 Nouvelle habitude ou tâche
               </button>
             ) : (
-              <div className="w-full bg-white ring-1 ring-black/5 rounded-xl p-4 space-y-4">
+              <div className="w-full bg-card ring-1 ring-border rounded-xl p-4 space-y-4">
                 <input
                   autoFocus
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Nom de l'habitude ou de la tâche"
-                  className="w-full text-sm font-medium bg-transparent outline-none placeholder:text-neutral-300"
+                  className="w-full text-sm font-medium bg-transparent outline-none placeholder:text-muted-foreground/50"
                   onKeyDown={(e) => e.key === "Enter" && addHabit()}
                 />
                 <input
                   value={newDetail}
                   onChange={(e) => setNewDetail(e.target.value)}
                   placeholder="Détail (ex: 10 minutes • Matin)"
-                  className="w-full text-xs bg-transparent outline-none placeholder:text-neutral-300"
+                  className="w-full text-xs bg-transparent outline-none placeholder:text-muted-foreground/50"
                 />
 
                 <div className="space-y-2">
