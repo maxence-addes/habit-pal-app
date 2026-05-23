@@ -227,6 +227,7 @@ function Index() {
               <h1 className="text-2xl font-semibold tracking-tight text-balance">
                 Mes projets
               </h1>
+            </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 bg-muted/80 ring-1 ring-border px-3 py-1.5 rounded-full">
                 <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
