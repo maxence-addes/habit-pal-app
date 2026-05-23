@@ -358,10 +358,10 @@ function Index() {
                 />
 
                 <div className="space-y-2">
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     Fréquence
                   </p>
-                  <div className="flex gap-1 bg-neutral-100/60 p-1 rounded-lg">
+                  <div className="flex gap-1 bg-muted/60 p-1 rounded-lg">
                     {(
                       [
                         ["daily", "Quotidien"],
@@ -376,8 +376,8 @@ function Index() {
                         className={cn(
                           "flex-1 text-xs py-1.5 rounded-md transition-colors",
                           newScheduleType === val
-                            ? "bg-white ring-1 ring-black/5 text-neutral-900 font-medium"
-                            : "text-neutral-500 hover:text-neutral-800",
+                            ? "bg-card ring-1 ring-border text-foreground font-medium"
+                            : "text-muted-foreground hover:text-foreground",
                         )}
                       >
                         {label}
@@ -404,7 +404,7 @@ function Index() {
                               "size-8 text-xs rounded-md transition-colors",
                               active
                                 ? "bg-brand-primary text-white"
-                                : "bg-neutral-100/60 text-neutral-500 hover:bg-neutral-200/60",
+                                : "bg-muted/60 text-muted-foreground hover:bg-muted",
                             )}
                           >
                             {d.label}
@@ -419,7 +419,7 @@ function Index() {
                       <PopoverTrigger asChild>
                         <button
                           type="button"
-                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-neutral-100/60 hover:bg-neutral-200/60 text-neutral-600"
+                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-muted/60 hover:bg-muted text-foreground/60"
                         >
                           {newDates.length === 0
                             ? "Sélectionner une ou plusieurs dates"
@@ -448,7 +448,7 @@ function Index() {
                       setNewWeekdays([1, 2, 3, 4, 5]);
                       setNewDates([]);
                     }}
-                    className="text-xs px-3 py-1.5 rounded-md text-neutral-500 hover:bg-neutral-100"
+                    className="text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:bg-muted"
                   >
                     Annuler
                   </button>
