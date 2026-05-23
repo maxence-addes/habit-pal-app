@@ -194,9 +194,9 @@ function Index() {
             </div>
           </div>
 
-          <div className="bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl p-6">
+          <div className="bg-muted/40 ring-1 ring-border rounded-2xl p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-sm font-medium text-neutral-500">Progression hebdomadaire</h2>
+              <h2 className="text-sm font-medium text-muted-foreground">Progression hebdomadaire</h2>
               <span className="text-sm font-medium text-brand-muted">{completionPct}% complété</span>
             </div>
             <div className="grid grid-cols-7 gap-3">
@@ -207,22 +207,24 @@ function Index() {
                 return (
                   <div key={i} className="flex flex-col items-center gap-2">
                     <span
-                      className={`text-[10px] uppercase tracking-wider ${
-                        isToday ? "text-brand-primary" : "text-neutral-400"
-                      }`}
+                      className={cn(
+                        "text-[10px] uppercase tracking-wider",
+                        isToday ? "text-brand-primary" : "text-muted-foreground"
+                      )}
                     >
                       {DAY_LABELS[i]}
                     </span>
                     <div
-                      className={`size-8 rounded-full flex items-center justify-center transition-all ${
+                      className={cn(
+                        "size-8 rounded-full flex items-center justify-center transition-all",
                         allDone
                           ? "bg-brand-primary"
                           : isToday
                             ? "ring-1 ring-brand-primary ring-offset-2"
                             : anyDone
                               ? "bg-brand-primary/20"
-                              : "bg-neutral-200/50"
-                      }`}
+                              : "bg-muted/50"
+                      )}
                     >
                       {anyDone && !allDone && (
                         <div className="size-2 bg-brand-primary rounded-full" />
