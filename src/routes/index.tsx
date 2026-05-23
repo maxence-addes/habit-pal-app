@@ -221,11 +221,12 @@ function Index() {
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-1">
-              <p className="text-sm text-muted-foreground font-medium capitalize">{dateLabel}</p>
+              <p className="text-sm text-muted-foreground font-medium capitalize">
+                {dateLabel}{timeLabel && ` · ${timeLabel}`}
+              </p>
               <h1 className="text-2xl font-semibold tracking-tight text-balance">
-                Daily Rhythms
+                Mes projets
               </h1>
-            </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 bg-muted/80 ring-1 ring-border px-3 py-1.5 rounded-full">
                 <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
