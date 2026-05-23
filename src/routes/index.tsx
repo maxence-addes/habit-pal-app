@@ -468,28 +468,28 @@ function Index() {
       <footer className="py-16 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-6 bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-1">
+            <div className="p-6 bg-muted/40 ring-1 ring-border rounded-2xl">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
                 Meilleure série
               </p>
               <p className="text-2xl font-medium">
-                {bestStreak} <span className="text-sm font-normal text-neutral-400">jours</span>
+                {bestStreak} <span className="text-sm font-normal text-muted-foreground">jours</span>
               </p>
-              <div className="mt-4 h-1 w-full bg-neutral-200 rounded-full overflow-hidden">
+              <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-primary transition-all"
                   style={{ width: `${Math.min(100, (bestStreak / 30) * 100)}%` }}
                 />
               </div>
             </div>
-            <div className="p-6 bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-1">
+            <div className="p-6 bg-muted/40 ring-1 ring-border rounded-2xl">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
                 Taux de complétion
               </p>
               <p className="text-2xl font-medium">
-                {completionPct}% <span className="text-sm font-normal text-neutral-400">semaine</span>
+                {completionPct}% <span className="text-sm font-normal text-muted-foreground">semaine</span>
               </p>
-              <div className="mt-4 h-1 w-full bg-neutral-200 rounded-full overflow-hidden">
+              <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-muted transition-all"
                   style={{ width: `${completionPct}%` }}
@@ -504,9 +504,9 @@ function Index() {
               width={1280}
               height={512}
               loading="lazy"
-              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-black/5 rounded-[min(1vw,12px)]"
+              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)]"
             />
-            <p className="mt-4 text-sm text-neutral-500 max-w-[56ch] text-pretty">
+            <p className="mt-4 text-sm text-muted-foreground max-w-[56ch] text-pretty">
               Les petites actions soutenues dans le temps se transforment en
               changements d'identité profonds. Concentrez-vous sur la fréquence,
               pas sur l'intensité.
