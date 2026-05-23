@@ -38,6 +38,7 @@ const WEEKDAY_PICKER = [
 ];
 
 function Index() {
+  const { theme, toggle } = useTheme();
   const [habits, setHabits] = useState<Habit[]>([]);
   const [mounted, setMounted] = useState(false);
   const [adding, setAdding] = useState(false);
