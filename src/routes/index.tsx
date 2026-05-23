@@ -561,17 +561,16 @@ function Index() {
           </div>
           <div className="mt-12">
             <img
-              src={inspirationImg}
-              alt="Verre d'eau sur une surface de pierre"
+              key={INSPIRATIONS[inspoIndex].image}
+              src={INSPIRATIONS[inspoIndex].image}
+              alt="Inspiration"
               width={1280}
               height={512}
               loading="lazy"
-              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)]"
+              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)] transition-opacity duration-700"
             />
             <p className="mt-4 text-sm text-muted-foreground max-w-[56ch] text-pretty">
-              Les petites actions soutenues dans le temps se transforment en
-              changements d'identité profonds. Concentrez-vous sur la fréquence,
-              pas sur l'intensité.
+              {INSPIRATIONS[inspoIndex].quote}
             </p>
           </div>
         </div>
