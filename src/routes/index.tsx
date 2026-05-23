@@ -156,21 +156,41 @@ function Index() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fcfcfb] text-[#1c1c1a] font-sans selection:bg-brand-primary/10">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-brand-primary/10">
       <header className="py-12 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-1">
-              <p className="text-sm text-neutral-500 font-medium capitalize">{dateLabel}</p>
+              <p className="text-sm text-muted-foreground font-medium capitalize">{dateLabel}</p>
               <h1 className="text-2xl font-semibold tracking-tight text-balance">
                 Daily Rhythms
               </h1>
             </div>
-            <div className="flex items-center gap-2 bg-neutral-100/80 ring-1 ring-black/5 px-3 py-1.5 rounded-full">
-              <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
-              <span className="text-sm font-medium">
-                Série de {bestStreak} {bestStreak > 1 ? "jours" : "jour"}
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-muted/80 ring-1 ring-border px-3 py-1.5 rounded-full">
+                <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
+                <span className="text-sm font-medium">
+                  Série de {bestStreak} {bestStreak > 1 ? "jours" : "jour"}
+                </span>
+              </div>
+              <button
+                onClick={toggle}
+                aria-label={theme === "dark" ? "Passer en mode jour" : "Passer en mode nuit"}
+                className="relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-muted ring-1 ring-border"
+              >
+                <span
+                  className={cn(
+                    "inline-flex h-5 w-5 items-center justify-center transform rounded-full bg-card shadow transition-transform",
+                    theme === "dark" ? "translate-x-6" : "translate-x-1"
+                  )}
+                >
+                  {theme === "dark" ? (
+                    <Moon className="w-3 h-3 text-foreground" />
+                  ) : (
+                    <Sun className="w-3 h-3 text-brand-primary" />
+                  )}
+                </span>
+              </button>
             </div>
           </div>
 
