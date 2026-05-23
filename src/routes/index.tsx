@@ -96,6 +96,24 @@ function Index() {
     setMounted(true);
   }, []);
 
+  const [inspoIndex, setInspoIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setInspoIndex((i) => (i + 1) % INSPIRATIONS.length);
+    }, 10000);
+    return () => clearInterval(id);
+  }, []);
+
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const timeLabel = now
+    ? now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+    : "";
+
   useEffect(() => {
     if (mounted) saveHabits(habits);
   }, [habits, mounted]);
