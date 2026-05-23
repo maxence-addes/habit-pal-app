@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 import inspirationImg from "@/assets/inspiration.jpg";
 import {
   computeStreak,
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/hooks/use-theme";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -36,6 +38,7 @@ const WEEKDAY_PICKER = [
 ];
 
 function Index() {
+  const { theme, toggle } = useTheme();
   const [habits, setHabits] = useState<Habit[]>([]);
   const [mounted, setMounted] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -153,27 +156,47 @@ function Index() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fcfcfb] text-[#1c1c1a] font-sans selection:bg-brand-primary/10">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-brand-primary/10">
       <header className="py-12 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-1">
-              <p className="text-sm text-neutral-500 font-medium capitalize">{dateLabel}</p>
+              <p className="text-sm text-muted-foreground font-medium capitalize">{dateLabel}</p>
               <h1 className="text-2xl font-semibold tracking-tight text-balance">
                 Daily Rhythms
               </h1>
             </div>
-            <div className="flex items-center gap-2 bg-neutral-100/80 ring-1 ring-black/5 px-3 py-1.5 rounded-full">
-              <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
-              <span className="text-sm font-medium">
-                Série de {bestStreak} {bestStreak > 1 ? "jours" : "jour"}
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-muted/80 ring-1 ring-border px-3 py-1.5 rounded-full">
+                <div className="size-4 bg-brand-primary rounded-full ring-4 ring-brand-primary/10" />
+                <span className="text-sm font-medium">
+                  Série de {bestStreak} {bestStreak > 1 ? "jours" : "jour"}
+                </span>
+              </div>
+              <button
+                onClick={toggle}
+                aria-label={theme === "dark" ? "Passer en mode jour" : "Passer en mode nuit"}
+                className="relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-muted ring-1 ring-border"
+              >
+                <span
+                  className={cn(
+                    "inline-flex h-5 w-5 items-center justify-center transform rounded-full bg-card shadow transition-transform",
+                    theme === "dark" ? "translate-x-6" : "translate-x-1"
+                  )}
+                >
+                  {theme === "dark" ? (
+                    <Moon className="w-3 h-3 text-foreground" />
+                  ) : (
+                    <Sun className="w-3 h-3 text-brand-primary" />
+                  )}
+                </span>
+              </button>
             </div>
           </div>
 
-          <div className="bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl p-6">
+          <div className="bg-muted/40 ring-1 ring-border rounded-2xl p-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-sm font-medium text-neutral-500">Progression hebdomadaire</h2>
+              <h2 className="text-sm font-medium text-muted-foreground">Progression hebdomadaire</h2>
               <span className="text-sm font-medium text-brand-muted">{completionPct}% complété</span>
             </div>
             <div className="grid grid-cols-7 gap-3">
@@ -184,22 +207,24 @@ function Index() {
                 return (
                   <div key={i} className="flex flex-col items-center gap-2">
                     <span
-                      className={`text-[10px] uppercase tracking-wider ${
-                        isToday ? "text-brand-primary" : "text-neutral-400"
-                      }`}
+                      className={cn(
+                        "text-[10px] uppercase tracking-wider",
+                        isToday ? "text-brand-primary" : "text-muted-foreground"
+                      )}
                     >
                       {DAY_LABELS[i]}
                     </span>
                     <div
-                      className={`size-8 rounded-full flex items-center justify-center transition-all ${
+                      className={cn(
+                        "size-8 rounded-full flex items-center justify-center transition-all",
                         allDone
                           ? "bg-brand-primary"
                           : isToday
                             ? "ring-1 ring-brand-primary ring-offset-2"
                             : anyDone
                               ? "bg-brand-primary/20"
-                              : "bg-neutral-200/50"
-                      }`}
+                              : "bg-muted/50"
+                      )}
                     >
                       {anyDone && !allDone && (
                         <div className="size-2 bg-brand-primary rounded-full" />
@@ -221,45 +246,45 @@ function Index() {
             return (
               <div
                 key={h.id}
-                className="group flex items-center justify-between p-4 bg-white ring-1 ring-black/5 rounded-xl transition-transform hover:-translate-y-px"
+                className="group flex items-center justify-between p-4 bg-card ring-1 ring-border rounded-xl transition-transform hover:-translate-y-px"
               >
                 <div className="flex items-center gap-4 flex-1">
                   <button
                     onClick={() => toggleToday(h.id)}
                     aria-label={done ? "Marquer comme non fait" : "Marquer comme fait"}
-                    className={`size-5 rounded-md flex items-center justify-center transition-colors cursor-pointer ${
+                    className={cn(
+                      "size-5 rounded-md flex items-center justify-center transition-colors cursor-pointer",
                       done
                         ? "bg-brand-primary ring-1 ring-brand-primary"
-                        : "ring-1 ring-neutral-200 hover:ring-brand-primary"
-                    }`}
+                        : "ring-1 ring-border hover:ring-brand-primary"
+                    )}
                   >
                     {done && <div className="size-1.5 bg-white rounded-full" />}
                   </button>
                   <div>
                     <p
-                      className={`text-sm font-medium ${
-                        done ? "text-neutral-400 line-through" : ""
-                      }`}
+                      className={cn("text-sm font-medium", done && "text-muted-foreground line-through")}
                     >
                       {h.name}
                     </p>
-                    <p className={`text-xs ${done ? "text-neutral-300" : "text-neutral-400"}`}>
+                    <p className={cn("text-xs", done ? "text-muted-foreground/50" : "text-muted-foreground")}>
                       {h.detail} · {describeSchedule(h.schedule)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span
-                    className={`text-xs font-medium transition-colors ${
-                      done ? "text-brand-primary" : "text-neutral-400 group-hover:text-brand-primary"
-                    }`}
+                    className={cn(
+                      "text-xs font-medium transition-colors",
+                      done ? "text-brand-primary" : "text-muted-foreground group-hover:text-brand-primary"
+                    )}
                   >
                     {done ? "Fait" : `Série de ${streak} j`}
                   </span>
                   <button
                     onClick={() => removeHabit(h.id)}
                     aria-label="Supprimer l'habitude"
-                    className="text-neutral-300 hover:text-neutral-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="text-muted-foreground/40 hover:text-muted-foreground text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     ×
                   </button>
@@ -269,34 +294,34 @@ function Index() {
           })}
 
           {todaysHabits.length === 0 && (
-            <p className="text-center text-sm text-neutral-400 py-8">
+            <p className="text-center text-sm text-muted-foreground py-8">
               Rien de prévu aujourd'hui. Ajoutez une habitude ou une tâche.
             </p>
           )}
 
           {upcomingHabits.length > 0 && (
             <div className="pt-6">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-2 px-1">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2 px-1">
                 Planifié
               </p>
               <div className="space-y-2">
                 {upcomingHabits.map((h) => (
                   <div
                     key={h.id}
-                    className="group flex items-center justify-between p-3 bg-neutral-100/40 ring-1 ring-black/5 rounded-xl"
+                    className="group flex items-center justify-between p-3 bg-muted/40 ring-1 ring-border rounded-xl"
                   >
                     <div>
-                      <p className="text-sm font-medium text-neutral-600">
+                      <p className="text-sm font-medium text-foreground/60">
                         {h.name}
                       </p>
-                      <p className="text-xs text-neutral-400">
+                      <p className="text-xs text-muted-foreground">
                         {describeSchedule(h.schedule)}
                       </p>
                     </div>
                     <button
                       onClick={() => removeHabit(h.id)}
                       aria-label="Supprimer"
-                      className="text-neutral-300 hover:text-neutral-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="text-muted-foreground/40 hover:text-muted-foreground text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       ×
                     </button>
@@ -310,33 +335,33 @@ function Index() {
             {!adding ? (
               <button
                 onClick={() => setAdding(true)}
-                className="bg-[#1c1c1a] text-neutral-50 text-sm font-medium py-2 px-4 flex items-center gap-2 rounded-lg ring-1 ring-[#1c1c1a] hover:bg-neutral-800 transition-colors cursor-pointer"
+                className="bg-foreground text-background text-sm font-medium py-2 px-4 flex items-center gap-2 rounded-lg ring-1 ring-foreground hover:bg-foreground/80 transition-colors cursor-pointer"
               >
                 <span className="text-lg leading-none">+</span>
                 Nouvelle habitude ou tâche
               </button>
             ) : (
-              <div className="w-full bg-white ring-1 ring-black/5 rounded-xl p-4 space-y-4">
+              <div className="w-full bg-card ring-1 ring-border rounded-xl p-4 space-y-4">
                 <input
                   autoFocus
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Nom de l'habitude ou de la tâche"
-                  className="w-full text-sm font-medium bg-transparent outline-none placeholder:text-neutral-300"
+                  className="w-full text-sm font-medium bg-transparent outline-none placeholder:text-muted-foreground/50"
                   onKeyDown={(e) => e.key === "Enter" && addHabit()}
                 />
                 <input
                   value={newDetail}
                   onChange={(e) => setNewDetail(e.target.value)}
                   placeholder="Détail (ex: 10 minutes • Matin)"
-                  className="w-full text-xs bg-transparent outline-none placeholder:text-neutral-300"
+                  className="w-full text-xs bg-transparent outline-none placeholder:text-muted-foreground/50"
                 />
 
                 <div className="space-y-2">
-                  <p className="text-[10px] uppercase tracking-wider text-neutral-400">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     Fréquence
                   </p>
-                  <div className="flex gap-1 bg-neutral-100/60 p-1 rounded-lg">
+                  <div className="flex gap-1 bg-muted/60 p-1 rounded-lg">
                     {(
                       [
                         ["daily", "Quotidien"],
@@ -351,8 +376,8 @@ function Index() {
                         className={cn(
                           "flex-1 text-xs py-1.5 rounded-md transition-colors",
                           newScheduleType === val
-                            ? "bg-white ring-1 ring-black/5 text-neutral-900 font-medium"
-                            : "text-neutral-500 hover:text-neutral-800",
+                            ? "bg-card ring-1 ring-border text-foreground font-medium"
+                            : "text-muted-foreground hover:text-foreground",
                         )}
                       >
                         {label}
@@ -379,7 +404,7 @@ function Index() {
                               "size-8 text-xs rounded-md transition-colors",
                               active
                                 ? "bg-brand-primary text-white"
-                                : "bg-neutral-100/60 text-neutral-500 hover:bg-neutral-200/60",
+                                : "bg-muted/60 text-muted-foreground hover:bg-muted",
                             )}
                           >
                             {d.label}
@@ -394,7 +419,7 @@ function Index() {
                       <PopoverTrigger asChild>
                         <button
                           type="button"
-                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-neutral-100/60 hover:bg-neutral-200/60 text-neutral-600"
+                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-muted/60 hover:bg-muted text-foreground/60"
                         >
                           {newDates.length === 0
                             ? "Sélectionner une ou plusieurs dates"
@@ -423,7 +448,7 @@ function Index() {
                       setNewWeekdays([1, 2, 3, 4, 5]);
                       setNewDates([]);
                     }}
-                    className="text-xs px-3 py-1.5 rounded-md text-neutral-500 hover:bg-neutral-100"
+                    className="text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:bg-muted"
                   >
                     Annuler
                   </button>
@@ -443,28 +468,28 @@ function Index() {
       <footer className="py-16 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-6 bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-1">
+            <div className="p-6 bg-muted/40 ring-1 ring-border rounded-2xl">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
                 Meilleure série
               </p>
               <p className="text-2xl font-medium">
-                {bestStreak} <span className="text-sm font-normal text-neutral-400">jours</span>
+                {bestStreak} <span className="text-sm font-normal text-muted-foreground">jours</span>
               </p>
-              <div className="mt-4 h-1 w-full bg-neutral-200 rounded-full overflow-hidden">
+              <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-primary transition-all"
                   style={{ width: `${Math.min(100, (bestStreak / 30) * 100)}%` }}
                 />
               </div>
             </div>
-            <div className="p-6 bg-neutral-100/40 ring-1 ring-black/5 rounded-2xl">
-              <p className="text-[10px] uppercase tracking-wider text-neutral-400 mb-1">
+            <div className="p-6 bg-muted/40 ring-1 ring-border rounded-2xl">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
                 Taux de complétion
               </p>
               <p className="text-2xl font-medium">
-                {completionPct}% <span className="text-sm font-normal text-neutral-400">semaine</span>
+                {completionPct}% <span className="text-sm font-normal text-muted-foreground">semaine</span>
               </p>
-              <div className="mt-4 h-1 w-full bg-neutral-200 rounded-full overflow-hidden">
+              <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-muted transition-all"
                   style={{ width: `${completionPct}%` }}
@@ -479,9 +504,9 @@ function Index() {
               width={1280}
               height={512}
               loading="lazy"
-              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-black/5 rounded-[min(1vw,12px)]"
+              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)]"
             />
-            <p className="mt-4 text-sm text-neutral-500 max-w-[56ch] text-pretty">
+            <p className="mt-4 text-sm text-muted-foreground max-w-[56ch] text-pretty">
               Les petites actions soutenues dans le temps se transforment en
               changements d'identité profonds. Concentrez-vous sur la fréquence,
               pas sur l'intensité.
