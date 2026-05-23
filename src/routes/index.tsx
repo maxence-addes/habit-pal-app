@@ -1,7 +1,49 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import inspirationImg from "@/assets/inspiration.jpg";
+
+const INSPIRATIONS: { image: string; quote: string }[] = [
+  {
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1280&q=80",
+    quote: "Les petites actions soutenues dans le temps se transforment en changements d'identité profonds.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1280&q=80",
+    quote: "La discipline est le pont entre les objectifs et les accomplissements.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1280&q=80",
+    quote: "Concentrez-vous sur la fréquence, pas sur l'intensité.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1280&q=80",
+    quote: "Un jour ou jour 1. C'est vous qui décidez.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1280&q=80",
+    quote: "La motivation vous fait commencer, l'habitude vous fait continuer.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=1280&q=80",
+    quote: "Ce que vous faites chaque jour compte plus que ce que vous faites de temps en temps.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?w=1280&q=80",
+    quote: "Le succès est la somme de petits efforts répétés jour après jour.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&q=80",
+    quote: "Les habitudes sont l'intérêt composé du développement personnel.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1280&q=80",
+    quote: "Vous n'atteignez pas le niveau de vos objectifs, vous tombez au niveau de vos systèmes.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=1280&q=80",
+    quote: "La constance bat l'intensité à chaque fois.",
+  },
+];
 import {
   computeStreak,
   describeSchedule,
@@ -53,6 +95,24 @@ function Index() {
     setHabits(loadHabits());
     setMounted(true);
   }, []);
+
+  const [inspoIndex, setInspoIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setInspoIndex((i) => (i + 1) % INSPIRATIONS.length);
+    }, 10000);
+    return () => clearInterval(id);
+  }, []);
+
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const timeLabel = now
+    ? now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+    : "";
 
   useEffect(() => {
     if (mounted) saveHabits(habits);
@@ -161,9 +221,11 @@ function Index() {
         <div className="max-w-2xl mx-auto">
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-1">
-              <p className="text-sm text-muted-foreground font-medium capitalize">{dateLabel}</p>
+              <p className="text-sm text-muted-foreground font-medium capitalize">
+                {dateLabel}{timeLabel && ` · ${timeLabel}`}
+              </p>
               <h1 className="text-2xl font-semibold tracking-tight text-balance">
-                Daily Rhythms
+                Mes projets
               </h1>
             </div>
             <div className="flex items-center gap-3">
@@ -499,17 +561,16 @@ function Index() {
           </div>
           <div className="mt-12">
             <img
-              src={inspirationImg}
-              alt="Verre d'eau sur une surface de pierre"
+              key={INSPIRATIONS[inspoIndex].image}
+              src={INSPIRATIONS[inspoIndex].image}
+              alt="Inspiration"
               width={1280}
               height={512}
               loading="lazy"
-              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)]"
+              className="w-full aspect-[3/1] object-cover outline-1 -outline-offset-1 outline-border rounded-[min(1vw,12px)] transition-opacity duration-700"
             />
             <p className="mt-4 text-sm text-muted-foreground max-w-[56ch] text-pretty">
-              Les petites actions soutenues dans le temps se transforment en
-              changements d'identité profonds. Concentrez-vous sur la fréquence,
-              pas sur l'intensité.
+              {INSPIRATIONS[inspoIndex].quote}
             </p>
           </div>
         </div>
