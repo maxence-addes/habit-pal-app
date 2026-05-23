@@ -1,7 +1,49 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import inspirationImg from "@/assets/inspiration.jpg";
+
+const INSPIRATIONS: { image: string; quote: string }[] = [
+  {
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1280&q=80",
+    quote: "Les petites actions soutenues dans le temps se transforment en changements d'identité profonds.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1280&q=80",
+    quote: "La discipline est le pont entre les objectifs et les accomplissements.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1280&q=80",
+    quote: "Concentrez-vous sur la fréquence, pas sur l'intensité.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1280&q=80",
+    quote: "Un jour ou jour 1. C'est vous qui décidez.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1280&q=80",
+    quote: "La motivation vous fait commencer, l'habitude vous fait continuer.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=1280&q=80",
+    quote: "Ce que vous faites chaque jour compte plus que ce que vous faites de temps en temps.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?w=1280&q=80",
+    quote: "Le succès est la somme de petits efforts répétés jour après jour.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&q=80",
+    quote: "Les habitudes sont l'intérêt composé du développement personnel.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1280&q=80",
+    quote: "Vous n'atteignez pas le niveau de vos objectifs, vous tombez au niveau de vos systèmes.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=1280&q=80",
+    quote: "La constance bat l'intensité à chaque fois.",
+  },
+];
 import {
   computeStreak,
   describeSchedule,
