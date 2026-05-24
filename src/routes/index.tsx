@@ -87,9 +87,10 @@ function Index() {
   const [newName, setNewName] = useState("");
   const [newDetail, setNewDetail] = useState("");
   const [newScheduleType, setNewScheduleType] =
-    useState<"daily" | "weekly" | "once">("daily");
+    useState<"daily" | "weekly" | "once" | "deadline">("daily");
   const [newWeekdays, setNewWeekdays] = useState<number[]>([1, 2, 3, 4, 5]);
   const [newDates, setNewDates] = useState<Date[]>([]);
+  const [newDueDate, setNewDueDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     setHabits(loadHabits());
