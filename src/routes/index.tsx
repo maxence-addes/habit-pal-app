@@ -211,9 +211,11 @@ function Index() {
     return Math.round((done / total) * 100);
   })();
 
-  // Échéance complétée en avance => on la masque
+  // Échéance complétée un jour précédent => on la masque (le jour de la coche, on l'affiche encore)
   const isDeadlineDoneEarly = (h: Habit) =>
-    h.schedule.type === "deadline" && h.completions.length > 0;
+    h.schedule.type === "deadline" &&
+    h.completions.length > 0 &&
+    h.completions.every((c) => c < today);
 
   const todaysHabits = habits.filter(
     (h) => isScheduledOn(h, new Date()) && !isDeadlineDoneEarly(h),
