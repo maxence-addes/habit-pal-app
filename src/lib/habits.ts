@@ -1,7 +1,8 @@
 export type Schedule =
   | { type: "daily" }
   | { type: "weekly"; weekdays: number[] } // 0=Sun..6=Sat
-  | { type: "once"; dates: string[] }; // YYYY-MM-DD list
+  | { type: "once"; dates: string[] } // YYYY-MM-DD list
+  | { type: "deadline"; dueDate: string }; // YYYY-MM-DD — à faire pour cette date
 
 export type Habit = {
   id: string;
@@ -51,6 +52,7 @@ export const isScheduledOn = (habit: Habit, date: Date): boolean => {
   if (s.type === "daily") return true;
   if (s.type === "weekly") return s.weekdays.includes(date.getDay());
   if (s.type === "once") return s.dates.includes(todayKey(date));
+  if (s.type === "deadline") return todayKey(date) <= s.dueDate;
   return true;
 };
 
@@ -75,6 +77,14 @@ export const describeSchedule = (s: Schedule): string => {
       });
     }
     return `${s.dates.length} dates planifiées`;
+  }
+  if (s.type === "deadline") {
+    const [y, m, d] = s.dueDate.split("-").map(Number);
+    const label = new Date(y, m - 1, d).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+    });
+    return `À faire pour le ${label}`;
   }
   return "";
 };

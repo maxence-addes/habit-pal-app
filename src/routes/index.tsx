@@ -87,9 +87,10 @@ function Index() {
   const [newName, setNewName] = useState("");
   const [newDetail, setNewDetail] = useState("");
   const [newScheduleType, setNewScheduleType] =
-    useState<"daily" | "weekly" | "once">("daily");
+    useState<"daily" | "weekly" | "once" | "deadline">("daily");
   const [newWeekdays, setNewWeekdays] = useState<number[]>([1, 2, 3, 4, 5]);
   const [newDates, setNewDates] = useState<Date[]>([]);
+  const [newDueDate, setNewDueDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     setHabits(loadHabits());
@@ -151,6 +152,9 @@ function Index() {
         type: "once",
         dates: newDates.map((d) => todayKey(d)),
       };
+    } else if (newScheduleType === "deadline") {
+      if (!newDueDate) return;
+      schedule = { type: "deadline", dueDate: todayKey(newDueDate) };
     }
     setHabits((prev) => [
       ...prev,
@@ -167,6 +171,7 @@ function Index() {
     setNewScheduleType("daily");
     setNewWeekdays([1, 2, 3, 4, 5]);
     setNewDates([]);
+    setNewDueDate(undefined);
     setAdding(false);
   };
 
@@ -427,8 +432,9 @@ function Index() {
                     {(
                       [
                         ["daily", "Quotidien"],
-                        ["weekly", "Hebdomadaire"],
-                        ["once", "Dates précises"],
+                        ["weekly", "Hebdo"],
+                        ["once", "Dates"],
+                        ["deadline", "Échéance"],
                       ] as const
                     ).map(([val, label]) => (
                       <button
@@ -498,7 +504,31 @@ function Index() {
                       </PopoverContent>
                     </Popover>
                   )}
+
+                  {newScheduleType === "deadline" && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-muted/60 hover:bg-muted text-foreground/60"
+                        >
+                          {newDueDate
+                            ? `À faire pour le ${newDueDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`
+                            : "Choisir une date d'échéance"}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={newDueDate}
+                          onSelect={(d) => setNewDueDate(d ?? undefined)}
+                          className={cn("p-3 pointer-events-auto")}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </div>
+
 
                 <div className="flex justify-end gap-2 pt-2">
                   <button
@@ -509,6 +539,7 @@ function Index() {
                       setNewScheduleType("daily");
                       setNewWeekdays([1, 2, 3, 4, 5]);
                       setNewDates([]);
+                      setNewDueDate(undefined);
                     }}
                     className="text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:bg-muted"
                   >
