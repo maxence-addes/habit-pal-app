@@ -152,6 +152,9 @@ function Index() {
         type: "once",
         dates: newDates.map((d) => todayKey(d)),
       };
+    } else if (newScheduleType === "deadline") {
+      if (!newDueDate) return;
+      schedule = { type: "deadline", dueDate: todayKey(newDueDate) };
     }
     setHabits((prev) => [
       ...prev,
@@ -168,6 +171,7 @@ function Index() {
     setNewScheduleType("daily");
     setNewWeekdays([1, 2, 3, 4, 5]);
     setNewDates([]);
+    setNewDueDate(undefined);
     setAdding(false);
   };
 
