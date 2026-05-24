@@ -432,8 +432,9 @@ function Index() {
                     {(
                       [
                         ["daily", "Quotidien"],
-                        ["weekly", "Hebdomadaire"],
-                        ["once", "Dates précises"],
+                        ["weekly", "Hebdo"],
+                        ["once", "Dates"],
+                        ["deadline", "Échéance"],
                       ] as const
                     ).map(([val, label]) => (
                       <button
