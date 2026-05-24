@@ -211,11 +211,15 @@ function Index() {
     return Math.round((done / total) * 100);
   })();
 
-  const todaysHabits = habits.filter((h) =>
-    isScheduledOn(h, new Date()),
+  // Échéance complétée en avance => on la masque
+  const isDeadlineDoneEarly = (h: Habit) =>
+    h.schedule.type === "deadline" && h.completions.length > 0;
+
+  const todaysHabits = habits.filter(
+    (h) => isScheduledOn(h, new Date()) && !isDeadlineDoneEarly(h),
   );
   const upcomingHabits = habits.filter(
-    (h) => !isScheduledOn(h, new Date()),
+    (h) => !isScheduledOn(h, new Date()) && !isDeadlineDoneEarly(h),
   );
 
   const bestStreak = habits.reduce((m, h) => Math.max(m, computeStreak(h.completions)), 0);
