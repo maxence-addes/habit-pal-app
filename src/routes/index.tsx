@@ -176,9 +176,15 @@ function Index() {
   };
 
   // Week completion based on scheduled habits per day
+  // Deadline habits ne comptent que le jour J (jour de l'échéance)
+  const isCountedOn = (h: Habit, d: Date) => {
+    if (!isScheduledOn(h, d)) return false;
+    if (h.schedule.type === "deadline") return h.schedule.dueDate === todayKey(d);
+    return true;
+  };
   const weekDoneFlags = weekDates.map((d) => {
     const key = todayKey(d);
-    const scheduled = habits.filter((h) => isScheduledOn(h, d));
+    const scheduled = habits.filter((h) => isCountedOn(h, d));
     return (
       scheduled.length > 0 && scheduled.every((h) => h.completions.includes(key))
     );
@@ -186,7 +192,7 @@ function Index() {
   const weekAnyFlags = weekDates.map((d) => {
     const key = todayKey(d);
     return habits.some(
-      (h) => isScheduledOn(h, d) && h.completions.includes(key),
+      (h) => isCountedOn(h, d) && h.completions.includes(key),
     );
   });
 
