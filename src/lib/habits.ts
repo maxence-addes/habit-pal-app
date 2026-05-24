@@ -52,6 +52,7 @@ export const isScheduledOn = (habit: Habit, date: Date): boolean => {
   if (s.type === "daily") return true;
   if (s.type === "weekly") return s.weekdays.includes(date.getDay());
   if (s.type === "once") return s.dates.includes(todayKey(date));
+  if (s.type === "deadline") return todayKey(date) <= s.dueDate;
   return true;
 };
 
