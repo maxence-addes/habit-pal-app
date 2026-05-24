@@ -1,7 +1,8 @@
 export type Schedule =
   | { type: "daily" }
   | { type: "weekly"; weekdays: number[] } // 0=Sun..6=Sat
-  | { type: "once"; dates: string[] }; // YYYY-MM-DD list
+  | { type: "once"; dates: string[] } // YYYY-MM-DD list
+  | { type: "deadline"; dueDate: string }; // YYYY-MM-DD — à faire pour cette date
 
 export type Habit = {
   id: string;
