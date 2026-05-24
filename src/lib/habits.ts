@@ -78,6 +78,14 @@ export const describeSchedule = (s: Schedule): string => {
     }
     return `${s.dates.length} dates planifiées`;
   }
+  if (s.type === "deadline") {
+    const [y, m, d] = s.dueDate.split("-").map(Number);
+    const label = new Date(y, m - 1, d).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+    });
+    return `À faire pour le ${label}`;
+  }
   return "";
 };
 
