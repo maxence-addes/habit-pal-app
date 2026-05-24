@@ -539,6 +539,7 @@ function Index() {
                       setNewScheduleType("daily");
                       setNewWeekdays([1, 2, 3, 4, 5]);
                       setNewDates([]);
+                      setNewDueDate(undefined);
                     }}
                     className="text-xs px-3 py-1.5 rounded-md text-muted-foreground hover:bg-muted"
                   >
