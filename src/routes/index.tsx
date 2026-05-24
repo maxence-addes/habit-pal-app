@@ -504,7 +504,31 @@ function Index() {
                       </PopoverContent>
                     </Popover>
                   )}
+
+                  {newScheduleType === "deadline" && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button
+                          type="button"
+                          className="w-full text-left text-xs px-3 py-2 rounded-md bg-muted/60 hover:bg-muted text-foreground/60"
+                        >
+                          {newDueDate
+                            ? `À faire pour le ${newDueDate.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`
+                            : "Choisir une date d'échéance"}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={newDueDate}
+                          onSelect={(d) => setNewDueDate(d ?? undefined)}
+                          className={cn("p-3 pointer-events-auto")}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </div>
+
 
                 <div className="flex justify-end gap-2 pt-2">
                   <button
